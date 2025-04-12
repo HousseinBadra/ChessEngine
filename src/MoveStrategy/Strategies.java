@@ -1,5 +1,5 @@
 package MoveStrategy;
 
-enum Strategies {
-    Plus, X, L, EnPassant, PawnMove, PawnTake, Castle, KingMove
+public enum Strategies {
+    Plus, X, L, EnPassant, PawnMove, PawnTake, Castle, KingMove, PawnDoubleMove, Promotion
 }

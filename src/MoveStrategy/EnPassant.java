@@ -12,8 +12,9 @@ class EnPassant extends MoveStrategy {
         super();
     }
 
-    public ArrayList<ChessMove> generatePossibleMoves(ArrayList<ArrayList<ChessPiece>> board, ChessPiece piece) {
+    public ArrayList<ChessMove> generatePossibleMoves(ArrayList<ArrayList<ChessPiece>> board, ChessPiece piece, ChessMove lastMove) {
         ArrayList<ChessMove> result = new ArrayList<>();
+        if (lastMove == null) return result;
         // check white
         int[] directions = {-1, 1};
         if (piece.player == ChessPlayer.White && piece.getPosition().y == 4) {
@@ -21,9 +22,10 @@ class EnPassant extends MoveStrategy {
                 Position checkingPosition = new Position(piece.getPosition().x + direction, piece.getPosition().y);
                 Position newPosition = new Position(piece.getPosition().x + direction, piece.getPosition().y + 1);
                 ChessPiece target = board.get(checkingPosition.y).get(checkingPosition.x);
-                // this will cause a bug cause en passant is valid for only I round will check later
-                if (checkingPosition.isValid() && target != null && target.player == ChessPlayer.Black && target.getNumberOfMoves() == 1) {
-                    result.add(new ChessMove(piece.getPosition(), newPosition, piece.getClone(), board.get(checkingPosition.y).get(checkingPosition.x).getClone(), null));
+                if (checkingPosition.isValid() && target != null && target.player == ChessPlayer.Black) {
+                    boolean EnPassantWasPreviousMove = lastMove.getStragie() == Strategies.PawnDoubleMove && checkingPosition.equals(lastMove.getTo());
+                    if (EnPassantWasPreviousMove)
+                        result.add(new ChessMove(piece.getPosition(), newPosition, piece.getClone(), board.get(checkingPosition.y).get(checkingPosition.x).getClone(), null, Strategies.EnPassant));
                 }
             }
 
@@ -33,8 +35,10 @@ class EnPassant extends MoveStrategy {
                 Position checkingPosition = new Position(piece.getPosition().x + direction, piece.getPosition().y);
                 Position newPosition = new Position(piece.getPosition().x + direction, piece.getPosition().y - 1);
                 ChessPiece target = board.get(checkingPosition.y).get(checkingPosition.x);
-                if (checkingPosition.isValid() && target != null && target.player == ChessPlayer.White && target.getNumberOfMoves() == 1) {
-                    result.add(new ChessMove(piece.getPosition(), newPosition, piece.getClone(), board.get(checkingPosition.y).get(checkingPosition.x).getClone(), null));
+                if (checkingPosition.isValid() && target != null && target.player == ChessPlayer.White) {
+                    boolean EnPassantWasPreviousMove = lastMove.getStragie() == Strategies.PawnDoubleMove && checkingPosition.equals(lastMove.getTo());
+                    if (EnPassantWasPreviousMove)
+                        result.add(new ChessMove(piece.getPosition(), newPosition, piece.getClone(), board.get(checkingPosition.y).get(checkingPosition.x).getClone(), null, Strategies.EnPassant));
                 }
             }
 
@@ -43,7 +47,13 @@ class EnPassant extends MoveStrategy {
     }
 
     @Override
-    boolean canAttack(ArrayList<ArrayList<ChessPiece>> board, ChessPiece attacker, ChessPiece defender) {
+    public boolean canAttack(ArrayList<ArrayList<ChessPiece>> board, ChessPiece attacker, Position target, ChessMove lastMove) {
+        ArrayList<ChessMove> moves = generatePossibleMoves(board, attacker, lastMove);
+        for (ChessMove move : moves) {
+            if (move.getTo().equals(target)) {
+                return true;
+            }
+        }
         return false;
     }
 }

@@ -1,5 +1,5 @@
 package types;
 
-public enum ChessPlayer  {
+public enum ChessPlayer {
     White, Black
 }

@@ -12,11 +12,11 @@ class Plus extends MoveStrategy {
         super();
     }
 
-    public ArrayList<ChessMove> generatePossibleMoves(ArrayList<ArrayList<ChessPiece>> board, ChessPiece piece) {
+    public ArrayList<ChessMove> generatePossibleMoves(ArrayList<ArrayList<ChessPiece>> board, ChessPiece piece, ChessMove lastMove) {
         ArrayList<ChessMove> result = new ArrayList<>();
         // check forward
-        int counter = 0;
-        Position checkingPosition = null;
+        int counter;
+        Position checkingPosition;
         int[][] directions = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
         for (int[] direction : directions) {
             counter = 0;
@@ -24,9 +24,9 @@ class Plus extends MoveStrategy {
                 checkingPosition = new Position(piece.getPosition().x + counter + direction[0], piece.getPosition().y + direction[1]);
                 if (!checkingPosition.isValid()) break;
                 else if (board.get(checkingPosition.y).get(checkingPosition.x) == null) {
-                    result.add(new ChessMove(piece.getPosition(), checkingPosition, piece.getClone(), null, null));
+                    result.add(new ChessMove(piece.getPosition(), checkingPosition, piece.getClone(), null, null, Strategies.Plus));
                 } else if (board.get(checkingPosition.y).get(checkingPosition.x).player != piece.player) {
-                    result.add(new ChessMove(piece.getPosition(), checkingPosition, piece.getClone(), board.get(checkingPosition.y).get(checkingPosition.x).getClone(), null));
+                    result.add(new ChessMove(piece.getPosition(), checkingPosition, piece.getClone(), board.get(checkingPosition.y).get(checkingPosition.x).getClone(), null, Strategies.Plus));
                     break;
                 } else {
                     break;
@@ -38,7 +38,13 @@ class Plus extends MoveStrategy {
     }
 
     @Override
-    boolean canAttack(ArrayList<ArrayList<ChessPiece>> board, ChessPiece attacker, ChessPiece defender) {
+    public boolean canAttack(ArrayList<ArrayList<ChessPiece>> board, ChessPiece attacker, Position target, ChessMove lastMove) {
+        ArrayList<ChessMove> moves = generatePossibleMoves(board, attacker, lastMove);
+        for (ChessMove move : moves) {
+            if (move.getTo().equals(target)) {
+                return true;
+            }
+        }
         return false;
     }
 }

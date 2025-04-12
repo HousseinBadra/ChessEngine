@@ -16,4 +16,12 @@ public class Position {
     Position getClone() {
         return new Position(this.x, this.y);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;  // same reference
+        if (obj == null || getClass() != obj.getClass()) return false;  // null or not same class
+        Position other = (Position) obj;
+        return x == other.x && y == other.y;
+    }
 }
