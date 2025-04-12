@@ -13,6 +13,7 @@ class MoveStrategyFactory {
     PawnMove PawnMoveStrategy = new PawnMove();
     DoublePawnMove DoublePawnMoveStrategy = new DoublePawnMove();
     PawnTake PawnTakeStrategy = new PawnTake();
+    KingMove KingMoveStrategy = new KingMove();
 
     private MoveStrategyFactory() {
     }
@@ -42,10 +43,9 @@ class MoveStrategyFactory {
             result.add(PawnMoveStrategy);
             result.add(DoublePawnMoveStrategy);
             result.add(PawnTakeStrategy);
-            // need to implement pawn take
         }
         if (request == PieceType.King) {
-            // to be implemented
+            result.add(KingMoveStrategy);
         }
 
         return result;
