@@ -13,27 +13,27 @@ public class DoublePawnMove extends MoveStrategy {
         super();
     }
 
-    public ArrayList<ChessMove> generatePossibleMoves(ArrayList<ArrayList<ChessPiece>> board, ChessPiece piece, ChessMove lastMove) {
+    public ArrayList<ChessMove> generatePossibleMoves(ArrayList<ArrayList<ChessPiece>> board, ChessPiece piece, ChessMove lastMove, Position position) {
         ArrayList<ChessMove> result = new ArrayList<>();
         if(piece.isHasMoved()) return result;
         // check white
         if (piece.player == ChessPlayer.White) {
-            if (board.get(piece.getPosition().y + 1).get(piece.getPosition().x) == null && board.get(piece.getPosition().y + 2).get(piece.getPosition().x) == null) {
-                Position newPosition = new Position(piece.getPosition().x, piece.getPosition().y + 2);
-                result.add(new ChessMove(piece.getPosition(), newPosition, piece.getClone(), null, null, Strategies.DoublePawnMove));
+            if (board.get(position.y + 1).get(position.x) == null && board.get(position.y + 2).get(position.x) == null) {
+                Position newPosition = new Position(position.x, position.y + 2);
+                result.add(new ChessMove(position, newPosition, piece.getClone(), null, null, Strategies.DoublePawnMove, null, null));
             }
         }
         if (piece.player == ChessPlayer.Black) {
-            if (board.get(piece.getPosition().y - 1).get(piece.getPosition().x) == null && board.get(piece.getPosition().y - 2).get(piece.getPosition().x) == null) {
-                Position newPosition = new Position(piece.getPosition().x, piece.getPosition().y - 2);
-                result.add(new ChessMove(piece.getPosition(), newPosition, piece.getClone(), null, null, Strategies.DoublePawnMove));
+            if (board.get(position.y - 1).get(position.x) == null && board.get(position.y - 2).get(position.x) == null) {
+                Position newPosition = new Position(position.x, position.y - 2);
+                result.add(new ChessMove(position, newPosition, piece.getClone(), null, null, Strategies.DoublePawnMove, null, null));
             }
         }
         return result;
     }
 
     @Override
-    public boolean canAttack(ArrayList<ArrayList<ChessPiece>> board, ChessPiece attacker, Position target, ChessMove lastMove) {
+    public boolean canAttack(ArrayList<ArrayList<ChessPiece>> board, ChessPiece attacker, Position target, ChessMove lastMove, Position position) {
         return false;
     }
 }

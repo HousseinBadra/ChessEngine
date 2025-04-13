@@ -13,30 +13,30 @@ class PawnMove extends MoveStrategy {
         super();
     }
 
-    public ArrayList<ChessMove> generatePossibleMoves(ArrayList<ArrayList<ChessPiece>> board, ChessPiece piece, ChessMove lastMove) {
+    public ArrayList<ChessMove> generatePossibleMoves(ArrayList<ArrayList<ChessPiece>> board, ChessPiece piece, ChessMove lastMove, Position position) {
         ArrayList<ChessMove> result = new ArrayList<>();
         // check white
         if (piece.player == ChessPlayer.White) {
-            if (board.get(piece.getPosition().y + 1).get(piece.getPosition().x) == null) {
-                Position newPosition = new Position(piece.getPosition().x, piece.getPosition().y + 1);
+            if (board.get(position.y + 1).get(position.x) == null) {
+                Position newPosition = new Position(position.x, position.y + 1);
                 // handle promotion later
 //                if(piece.getPosition().x == 6) {}
-                result.add(new ChessMove(piece.getPosition(), newPosition, piece.getClone(), null, null, Strategies.PawnMove));
+                result.add(new ChessMove(position, newPosition, piece.getClone(), null, null, Strategies.PawnMove, null, null));
             }
         }
         if (piece.player == ChessPlayer.Black) {
-            if (board.get(piece.getPosition().y - 1).get(piece.getPosition().x) == null) {
-                Position newPosition = new Position(piece.getPosition().x, piece.getPosition().y - 1);
+            if (board.get(position.y - 1).get(position.x) == null) {
+                Position newPosition = new Position(position.x, position.y - 1);
                 // handle promotion later
 //                if(piece.getPosition().x == 1) {}
-                result.add(new ChessMove(piece.getPosition(), newPosition, piece.getClone(), null, null, Strategies.PawnMove));
+                result.add(new ChessMove(position, newPosition, piece.getClone(), null, null, Strategies.PawnMove, null, null));
             }
         }
         return result;
     }
 
     @Override
-    public boolean canAttack(ArrayList<ArrayList<ChessPiece>> board, ChessPiece attacker, Position target, ChessMove lastMove) {
+    public boolean canAttack(ArrayList<ArrayList<ChessPiece>> board, ChessPiece attacker, Position target, ChessMove lastMove, Position position) {
         return false;
     }
 }

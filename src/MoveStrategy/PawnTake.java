@@ -12,27 +12,26 @@ public class PawnTake extends MoveStrategy {
         super();
     }
 
-    public ArrayList<ChessMove> generatePossibleMoves(ArrayList<ArrayList<ChessPiece>> board, ChessPiece piece, ChessMove lastMove) {
+    public ArrayList<ChessMove> generatePossibleMoves(ArrayList<ArrayList<ChessPiece>> board, ChessPiece piece, ChessMove lastMove, Position position) {
         ArrayList<ChessMove> result = new ArrayList<>();
         int[] directions = {-1, 1};
         if (piece.player == ChessPlayer.White) {
             for (int direction : directions) {
-                Position newPosition = new Position(piece.getPosition().x + direction, piece.getPosition().y + 1);
+                Position newPosition = new Position(position.x + direction, position.y + 1);
                 if (newPosition.isValid()) {
                     ChessPiece target = board.get(newPosition.y).get(newPosition.x);
                     if (target != null && target.player != piece.player)
-                        result.add(new ChessMove(piece.getPosition(), newPosition, piece.getClone(), target, null, Strategies.PawnTake));
+                        result.add(new ChessMove(position, newPosition, piece.getClone(), target, null, Strategies.PawnTake, newPosition, null));
                 }
             }
         }
         if (piece.player == ChessPlayer.Black) {
             for (int direction : directions) {
-                Position newPosition = new Position(piece.getPosition().x + direction, piece.getPosition().y - 1);
-
+                Position newPosition = new Position(position.x + direction, position.y - 1);
                 if (newPosition.isValid()) {
                     ChessPiece target = board.get(newPosition.y).get(newPosition.x);
                     if (target != null && target.player != piece.player)
-                        result.add(new ChessMove(piece.getPosition(), newPosition, piece.getClone(), target, null, Strategies.PawnTake));
+                        result.add(new ChessMove(position, newPosition, piece.getClone(), target, null, Strategies.PawnTake, newPosition, null));
                 }
             }
         }
@@ -41,8 +40,8 @@ public class PawnTake extends MoveStrategy {
     }
 
     @Override
-    public boolean canAttack(ArrayList<ArrayList<ChessPiece>> board, ChessPiece attacker, Position target, ChessMove lastMove) {
-        ArrayList<ChessMove> moves = generatePossibleMoves(board, attacker, lastMove);
+    public boolean canAttack(ArrayList<ArrayList<ChessPiece>> board, ChessPiece attacker, Position target, ChessMove lastMove, Position position) {
+        ArrayList<ChessMove> moves = generatePossibleMoves(board, attacker, lastMove, position);
         for (ChessMove move : moves) {
             if (move.getTo().equals(target)) {
                 return true;

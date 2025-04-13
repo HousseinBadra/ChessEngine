@@ -12,33 +12,33 @@ class EnPassant extends MoveStrategy {
         super();
     }
 
-    public ArrayList<ChessMove> generatePossibleMoves(ArrayList<ArrayList<ChessPiece>> board, ChessPiece piece, ChessMove lastMove) {
+    public ArrayList<ChessMove> generatePossibleMoves(ArrayList<ArrayList<ChessPiece>> board, ChessPiece piece, ChessMove lastMove, Position position) {
         ArrayList<ChessMove> result = new ArrayList<>();
         if (lastMove == null) return result;
         // check white
         int[] directions = {-1, 1};
-        if (piece.player == ChessPlayer.White && piece.getPosition().y == 4) {
+        if (piece.player == ChessPlayer.White && position.y == 4) {
             for (int direction : directions) {
-                Position checkingPosition = new Position(piece.getPosition().x + direction, piece.getPosition().y);
-                Position newPosition = new Position(piece.getPosition().x + direction, piece.getPosition().y + 1);
+                Position checkingPosition = new Position(position.x + direction, position.y);
+                Position newPosition = new Position(position.x + direction, position.y + 1);
                 ChessPiece target = board.get(checkingPosition.y).get(checkingPosition.x);
                 if (checkingPosition.isValid() && target != null && target.player == ChessPlayer.Black) {
-                    boolean EnPassantWasPreviousMove = lastMove.getStragie() == Strategies.PawnDoubleMove && checkingPosition.equals(lastMove.getTo());
+                    boolean EnPassantWasPreviousMove = lastMove.getStragie() == Strategies.DoublePawnMove && checkingPosition.equals(lastMove.getTo());
                     if (EnPassantWasPreviousMove)
-                        result.add(new ChessMove(piece.getPosition(), newPosition, piece.getClone(), board.get(checkingPosition.y).get(checkingPosition.x).getClone(), null, Strategies.EnPassant));
+                        result.add(new ChessMove(position, newPosition, piece.getClone(), board.get(checkingPosition.y).get(checkingPosition.x).getClone(), null, Strategies.EnPassant, checkingPosition, null));
                 }
             }
 
         }
-        if (piece.player == ChessPlayer.Black && piece.getPosition().y == 3) {
+        if (piece.player == ChessPlayer.Black && position.y == 3) {
             for (int direction : directions) {
-                Position checkingPosition = new Position(piece.getPosition().x + direction, piece.getPosition().y);
-                Position newPosition = new Position(piece.getPosition().x + direction, piece.getPosition().y - 1);
+                Position checkingPosition = new Position(position.x + direction, position.y);
+                Position newPosition = new Position(position.x + direction, position.y - 1);
                 ChessPiece target = board.get(checkingPosition.y).get(checkingPosition.x);
                 if (checkingPosition.isValid() && target != null && target.player == ChessPlayer.White) {
-                    boolean EnPassantWasPreviousMove = lastMove.getStragie() == Strategies.PawnDoubleMove && checkingPosition.equals(lastMove.getTo());
+                    boolean EnPassantWasPreviousMove = lastMove.getStragie() == Strategies.DoublePawnMove && checkingPosition.equals(lastMove.getTo());
                     if (EnPassantWasPreviousMove)
-                        result.add(new ChessMove(piece.getPosition(), newPosition, piece.getClone(), board.get(checkingPosition.y).get(checkingPosition.x).getClone(), null, Strategies.EnPassant));
+                        result.add(new ChessMove(position, newPosition, piece.getClone(), board.get(checkingPosition.y).get(checkingPosition.x).getClone(), null, Strategies.EnPassant, checkingPosition, null));
                 }
             }
 
@@ -47,8 +47,8 @@ class EnPassant extends MoveStrategy {
     }
 
     @Override
-    public boolean canAttack(ArrayList<ArrayList<ChessPiece>> board, ChessPiece attacker, Position target, ChessMove lastMove) {
-        ArrayList<ChessMove> moves = generatePossibleMoves(board, attacker, lastMove);
+    public boolean canAttack(ArrayList<ArrayList<ChessPiece>> board, ChessPiece attacker, Position target, ChessMove lastMove, Position position) {
+        ArrayList<ChessMove> moves = generatePossibleMoves(board, attacker, lastMove, position);
         for (ChessMove move : moves) {
             if (move.getTo().equals(target)) {
                 return true;
