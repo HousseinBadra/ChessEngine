@@ -14,6 +14,7 @@ class MoveStrategyFactory {
     DoublePawnMove DoublePawnMoveStrategy = new DoublePawnMove();
     PawnTake PawnTakeStrategy = new PawnTake();
     KingMove KingMoveStrategy = new KingMove();
+    Castle CastleStrategy = new Castle();
 
     private MoveStrategyFactory() {
     }
@@ -46,6 +47,7 @@ class MoveStrategyFactory {
         }
         if (request == PieceType.King) {
             result.add(KingMoveStrategy);
+            result.add(CastleStrategy);
         }
 
         return result;
