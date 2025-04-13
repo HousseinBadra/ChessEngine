@@ -38,4 +38,16 @@ public class ChessMove {
         this.createPosition = createPosition;
         this.destroyPosition = destroyPosition;
     }
+
+    public ChessMove(Position from, Position to, ChessPiece piece, ChessPiece destroy, ChessPiece create, ChessMove sideEffect, Strategies stragie, Position destroyPosition, Position createPosition) {
+        this.from = from;
+        this.to = to;
+        this.piece = piece;
+        this.destroy = destroy;
+        this.create = create;
+        this.sideEffect = sideEffect;
+        this.stragie = stragie;
+        this.createPosition = createPosition;
+        this.destroyPosition = destroyPosition;
+    }
 }

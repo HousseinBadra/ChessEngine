@@ -8,17 +8,17 @@ public class ChessPiece {
     public final int weight;
     public final ChessPlayer player;
     public final PieceType type;
-    public final MoveStrategy[] strategy;
+    public final ArrayList<MoveStrategy> strategy;
     private int numberOfMoves = 0;
 
-    ChessPiece(int weight, ChessPlayer player, MoveStrategy[] strategy, PieceType type) {
+    public ChessPiece(int weight, ChessPlayer player, ArrayList<MoveStrategy> strategy, PieceType type) {
         this.weight = weight;
         this.player = player;
         this.strategy = strategy;
         this.type = type;
     }
 
-    ChessPiece(int weight, ChessPlayer player, MoveStrategy[] strategy, PieceType type, int numberOfMoves) {
+    public ChessPiece(int weight, ChessPlayer player, ArrayList<MoveStrategy> strategy, PieceType type, int numberOfMoves) {
         this.weight = weight;
         this.player = player;
         this.strategy = strategy;
