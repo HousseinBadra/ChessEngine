@@ -13,10 +13,6 @@ public class Position {
         return x >= 0 && x <= 7 && y >= 0 && y <= 7;
     }
 
-    Position getClone() {
-        return new Position(this.x, this.y);
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;  // same reference

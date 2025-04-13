@@ -17,11 +17,33 @@ public class ChessMove {
         return to;
     }
 
+    public ChessPiece getPiece() {
+        return piece;
+    }
+
+    public ChessPiece getDestroy() {
+        return destroy;
+    }
+
     public Position getFrom() {
         return from;
     }
 
+    public ChessPiece getCreate() {
+        return create;
+    }
 
+    public Position getDestroyPosition() {
+        return destroyPosition;
+    }
+
+    public ChessMove getSideEffect() {
+        return sideEffect;
+    }
+
+    public Position getCreatePosition() {
+        return createPosition;
+    }
 
     public Strategies getStragie() {
         return stragie;
