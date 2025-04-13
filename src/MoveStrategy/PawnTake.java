@@ -38,7 +38,7 @@ public class PawnTake extends MoveStrategy {
                             ChessPiece newQueen = new ChessPiece(8, piece.player, MoveStrategyFactory.getFactory().getStrategy(PieceType.Queen), PieceType.Queen);
                             sideEffect = new ChessMove(null, null, null, piece, newQueen, null, Strategies.Promotion, newPosition, newPosition);
                         }
-                        result.add(new ChessMove(position, newPosition, piece.getClone(), target, null, Strategies.PawnTake, newPosition, null));
+                        result.add(new ChessMove(position, newPosition, piece.getClone(), target, sideEffect, Strategies.PawnTake, newPosition, null));
                     }
                 }
             }
