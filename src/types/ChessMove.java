@@ -72,4 +72,24 @@ public class ChessMove {
         this.createPosition = createPosition;
         this.destroyPosition = destroyPosition;
     }
+
+    private String safeToString(ChessPiece piece) {
+        return (piece != null) ? piece.render() : "null";
+    }
+
+    @Override
+    public String toString() {
+        return "ChessMove {\n" +
+                "  from = " + from + ",\n" +
+                "  to = " + to + ",\n" +
+                "  piece = " + safeToString(piece) + ",\n" +
+                "  destroy = " + safeToString(destroy) + ",\n" +
+                "  create = " + safeToString(create) + ",\n" +
+                "  destroyPosition = " + destroyPosition + ",\n" +
+                "  createPosition = " + createPosition + ",\n" +
+                "  strategy = " + (stragie != null ? stragie.name() : "null") + ",\n" +
+                "  sideEffect = " + (sideEffect != null ? sideEffect.toString() : "null") + "\n" +
+                "}";
+    }
+
 }

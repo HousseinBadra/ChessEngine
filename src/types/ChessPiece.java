@@ -42,6 +42,14 @@ public class ChessPiece {
         return new ChessPiece(this.weight, this.player, this.strategy, this.type, this.numberOfMoves);
     }
 
+    public ArrayList<ChessMove> generateMoves(ArrayList<ArrayList<ChessPiece>> board, ChessMove lastMove, Position position){
+        ArrayList<ChessMove> result = new ArrayList<>();
+        for(MoveStrategy stg : strategy) {
+            result.addAll(stg.generatePossibleMoves(board, this, lastMove, position));
+        }
+        return result;
+    }
+
     public boolean canAttack(ArrayList<ArrayList<ChessPiece>> board, ChessPiece attackedPiece, ChessMove lastMove, Position attackPosition, Position defensePosition) {
         for (MoveStrategy strategy : this.strategy) {
             if (this.player == attackedPiece.player) return false;
