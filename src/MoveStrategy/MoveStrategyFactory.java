@@ -4,7 +4,7 @@ import types.PieceType;
 
 import java.util.ArrayList;
 
-class MoveStrategyFactory {
+public class MoveStrategyFactory {
     private static MoveStrategyFactory factory = null;
     L LStrategy = new L();
     X XStrategy = new X();
@@ -24,7 +24,7 @@ class MoveStrategyFactory {
         return factory;
     }
 
-    ArrayList<MoveStrategy> getStrategy(PieceType request) {
+    public ArrayList<MoveStrategy> getStrategy(PieceType request) {
         ArrayList<MoveStrategy> result = new ArrayList<>();
         if (request == PieceType.Bishop) {
             result.add(XStrategy);
