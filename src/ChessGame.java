@@ -111,4 +111,20 @@ public class ChessGame {
     public ArrayList<ChessMove> getMoveHistory() {
         return moveHistory;
     }
+
+    public void renderBoard() {
+        System.out.println("  a  b  c  d  e  f  g  h");
+        for (int row = 0; row < 8; row++) {
+            System.out.print((8 - row) + " ");
+            for (int col = 0; col < 8; col++) {
+                ChessPiece piece = board.get(row).get(col);
+                if (piece != null) {
+                    System.out.print(piece.render() + " ");
+                } else {
+                    System.out.print(". ");
+                }
+            }
+            System.out.println((' '));
+        }
+    }
 }

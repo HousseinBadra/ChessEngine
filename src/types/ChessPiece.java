@@ -51,5 +51,9 @@ public class ChessPiece {
         }
         return false;
     }
+
+    public String render() {
+        return ChessSymbols.getSymbol(type, player);
+    }
 }
 
