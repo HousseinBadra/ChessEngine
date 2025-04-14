@@ -2,7 +2,6 @@ import MoveStrategy.Strategies;
 import types.*;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class ChessGame {
 
@@ -14,6 +13,7 @@ public class ChessGame {
     public ChessGame() {
         this.board = ChessBoardFactory.createStartingBoard();
         this.moveHistory = new ArrayList<>();
+        moveHistory.add(null);
         this.currentPlayer = ChessPlayer.White;
         this.totalMoves = 0;
     }
@@ -106,7 +106,7 @@ public class ChessGame {
         for (int i = 0; i < board.size(); i++) {
             ArrayList<ChessPiece> row = board.get(i);
             for (int j = 0; j < row.size(); j++) {
-                if (row.get(j).player == kingColor && row.get(j).type == PieceType.King) {
+                if (row.get(j) != null && row.get(j).player == kingColor && row.get(j).type == PieceType.King) {
                     position = new Position(j, i);
                 }
             }
@@ -133,24 +133,31 @@ public class ChessGame {
     }
 
     private boolean isMoveLegal(ChessMove move, ChessPlayer player) {
-        if(move.getStragie() == Strategies.KingMove) return true;
+        if (move.getStragie() == Strategies.KingMove) return true;
         applyMove(move);
-        boolean result = isKingInCheck(player);
+        boolean result = !isKingInCheck(player);
         undoMove(move);
         return result;
     }
 
     public ArrayList<ChessMove> getLegalMoves(Position position) {
+        ArrayList<ChessMove> moves = new ArrayList<>();
         ArrayList<ChessMove> result = new ArrayList<>();
         ChessPiece piece = board.get(position.y).get(position.x);
-        if (piece == null) return result;
-        result.addAll(piece.generateMoves(board, moveHistory.getLast(), position));
-        return result.stream().filter(m -> isMoveLegal(m, piece.player)).collect(Collectors.toCollection(ArrayList::new));
+        if (piece == null) return moves;
+        moves.addAll(piece.generateMoves(board, moveHistory.getLast(), position));
+        for (ChessMove move : moves) {
+            if (isMoveLegal(move, piece.player)) {
+                result.add(move);
+            }
+        }
+        return result;
+
     }
 
     public boolean isCheckmate(ChessPlayer kingColor) {
         // Stub: Add your move generator and king attack checker here
-        if(!isKingInCheck(kingColor)) return false;
+        if (!isKingInCheck(kingColor)) return false;
         for (int i = 0; i < board.size(); i++) {
             ArrayList<ChessPiece> row = board.get(i);
             for (int j = 0; j < row.size(); j++) {
@@ -166,7 +173,7 @@ public class ChessGame {
     }
 
     public boolean isStalemate(ChessPlayer kingColor) {
-        if(isKingInCheck(kingColor)) return false;
+        if (isKingInCheck(kingColor)) return false;
         for (int i = 0; i < board.size(); i++) {
             ArrayList<ChessPiece> row = board.get(i);
             for (int j = 0; j < row.size(); j++) {
